@@ -1,4 +1,4 @@
-# Search-projects-on-Scratch-Profile
+# Scratch profile search
 Adds a Searchbar for projects to the Scratch profile page. It links to my [User Project Search](https://steve0greatness.github.io/extras/User-Project-Search.html).
 
 ## installation
