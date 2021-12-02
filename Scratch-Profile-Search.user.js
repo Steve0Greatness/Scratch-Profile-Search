@@ -25,16 +25,12 @@
     var boxHead = document.getElementsByClassName("box-head")[0]
     var boxContent = document.getElementsByClassName("media-grid")[0].getElementsByTagName("ul")[0]
     var input = document.createElement("input")
-    var form = document.createElement("form")
-    form.style.display = "inline-block"
-    form.onsubmit = () => { button.click() }
     input.id = "searchValue"
     input.title = "Search projects on user search projects"
     input.placeholder = "Search projects on this profile"
-    form.appendChild(input)
     var button = document.createElement("button")
     button.onclick = () => {
-        if (document.getElementById("searchValue").value == ""|undefined|null) {
+        if (input.value == ""|undefined|null) {
             location.reload()
         }
         if (options.value == "newestDefualt") { options.value = "newest" }
@@ -70,7 +66,7 @@
              })
     }
     button.innerHTML = "Search"
-    boxHead.appendChild(form)
+    boxHead.appendChild(input)
     boxHead.appendChild(button)
     boxHead.appendChild(options)
 })();
