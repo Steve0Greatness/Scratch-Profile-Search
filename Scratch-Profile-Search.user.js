@@ -38,35 +38,46 @@
         fetch("https://scratchdb.lefty.one/v2/project/info/user/" + user)
             .then(res => res.json())
             .then(data => {
-                 var projects = data.projects
-                 for (let i = 0; i < projects.length; i++) {
-                     let currentProject = projects[i]
-                     let title = currentProject.info.title
-                     let id = currentProject.info.scratch_id
-                     if (title.toUpperCase().includes(input.value.toUpperCase())) {
-                         let thumb = `//cdn2.scratch.mit.edu/get_image/project/${id}_144x108.png`
-                         let link = `/projects/${id}`
-                         let li = document.createElement("li")
-                         let before = document.createElement("li")
-                         li.className = "project thumb item"
-                         li.innerHTML = `<a href="${link}"><img class="lazy image" data-original="${thumb}" src="${thumb}" width="144" height="108" style="display: block;"></a>
-                         <span class="title"><a href="${link}">${title}</a></span>
-                         <span class="owner">by <a href="/users/${user}">${user}</a></span>`
-                         before.innerHTML = "<!-- templates/carousel/project-thumb.html -->"
-                         if (options.value == "newest"|"newestDefualt") {
-                             boxContent.insertBefore(li, boxContent.firstChild)
-                             boxContent.insertBefore(before, boxContent.firstChild)
-                         } else if (options.value == "oldest") {
-                             boxContent.appendChild(before)
-                             boxContent.appendChild(li)
-                         }
-                     }
-                 }
-                 boxHead.appendChild(loadEmpty)
-             })
+            var projects = data.projects
+            for (let i = 0; i < projects.length; i++) {
+                let currentProject = projects[i]
+                let title = currentProject.info.title
+                let id = currentProject.info.scratch_id
+                checkStuff(id, "https://scratch.mit.edu/projects/" + id)
+            }
+            boxHead.appendChild(loadEmpty)
+        })
     }
     button.innerHTML = "Search"
     boxHead.appendChild(input)
     boxHead.appendChild(button)
     boxHead.appendChild(options)
+    function checkStuff(id, link) {
+        fetch("https://api.scratch.mit.edu/projects/" + id)
+            .then(res => res.json())
+            .then(data => {
+                let searchQ = input.value
+                let notes = data.description
+                let instr = data.instructions
+                let title = data.title
+                let user = data.author.username
+                if (title.toUpperCase().includes(searchQ.toUpperCase()) || notes.toUpperCase().includes(searchQ.toUpperCase()) || instr.toUpperCase().includes(searchQ.toUpperCase())) {
+                    let thumb = `//cdn2.scratch.mit.edu/get_image/project/${id}_144x108.png`
+                    let link = `/projects/${id}`
+                    let li = document.createElement("li")
+                    let before = document.createElement("li")
+                    li.className = "project thumb item"
+                    li.innerHTML = `<a href="${link}"><img class="lazy image" data-original="${thumb}" src="${thumb}" width="144" height="108" style="display: block;"></a>
+                         <span class="title"><a href="${link}">${title}</a></span>
+                         <span class="owner">by <a href="/users/${user}">${user}</a></span>`
+                    before.innerHTML = "<!-- templates/carousel/project-thumb.html -->"
+                    if (options.value == "newest"|"newestDefualt") {
+                        boxContent.insertBefore(li, boxContent.firstChild)
+                        boxContent.insertBefore(before, boxContent.firstChild)
+                    } else if (options.value == "oldest") {
+                        boxContent.appendChild(before)
+                        boxContent.appendChild(li)
+                    }
+            }})
+    }
 })();
