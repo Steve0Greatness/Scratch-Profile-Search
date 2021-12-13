@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Search projects on Scratch Profile
 // @namespace    https://steve0greatness.github.io/extras/User-Project-Search.html
-// @version      1.0
+// @version      1.5
 // @description  Search projects from a profile on my user project search
 // @author       Steve0Greatness
 // @include      https://scratch.mit.edu/users/*/projects/*
@@ -13,9 +13,58 @@
 (function() {
     'use strict';
 
+    //config
+    const settings = {
+        stylesheet: true, // for if you're using it with another extension, for example, scratch addons with the dark theme addon on.
+        autosortbynew: false, // for if you always want to sort by new
+        stylesheetSettings: {
+            boxShadow: "inset 0 1px 1px rgba(0 0 0 / 8%)",
+            boxShadowMoz: "inset 0 1px 1px rgba(0, 0, 0.075)",
+            transition: "border linear .2s,box-shadow linear .2s",
+            backgroundColor: "#fff",
+            padding: "4px",
+            marginBottom: "6px",
+            fontSize: "13px",
+            lineHeight: "18px",
+            color: "#555",
+            border: "1px solid #ccc",
+            borderRadius: "3px",
+            height: "28px",
+            fontFamily: "\"Helvetica Neue\",Helvetica,Arial,sans-serif",
+            backgroundImage: "none",
+            display: "inline-block"
+        }
+    }
+
     var loadEmpty = document.createElement("button")
+    var style = document.createElement("style")
+    style.innerText = `button#search, button#removesearch {
+        font-family: ${settings.stylesheetSettings.fontFamily};
+    	-webkit-box-shadow: ${settings.stylesheetSettings.boxShadow};
+	    -moz-box-shadow: ${settings.stylesheetSettings.boxShadowMoz};
+    	box-shadow: ${settings.stylesheetSettings.boxShadow};
+	    -webkit-transition: ${settings.stylesheetSettings.transition};
+    	-moz-transition: ${settings.stylesheetSettings.transition};
+	    -ms-transition: ${settings.stylesheetSettings.transition};
+    	-o-transition: ${settings.stylesheetSettings.transition};
+	    transition: ${settings.stylesheetSettings.transition};
+    	background-color: ${settings.stylesheetSettings.backgroundColor};
+	    background-image: ${settings.stylesheetSettings.backgroundImage};
+    	display: ${settings.stylesheetSettings.display};
+	    padding: ${settings.stylesheetSettings.padding};
+    	margin-bottom: ${settings.stylesheetSettings.marginBottom};
+	    font-size: ${settings.stylesheetSettings.fontSize};
+    	line-height: ${settings.stylesheetSettings.lineHeight};
+	    color: ${settings.stylesheetSettings.color};
+    	border: ${settings.stylesheetSettings.border};
+	    -webkit-border-radius: ${settings.stylesheetSettings.borderRadius};
+    	-moz-border-radius: ${settings.stylesheetSettings.borderRadius};
+	    border-radius: ${settings.stylesheetSettings.borderRadius};
+    	height: ${settings.stylesheetSettings.height};
+    }`
     loadEmpty.onclick = () => { location.reload() }
     loadEmpty.innerHTML = "Remove Search"
+    loadEmpty.id = "removesearch"
     var user = location.pathname.split(/\//)[2]
     var options = document.createElement("select")
     options.innerHTML = `<option value="newestDefualt">Sort by...</option>
@@ -49,9 +98,12 @@
         })
     }
     button.innerHTML = "Search"
+    button.id = "search"
     boxHead.appendChild(input)
     boxHead.appendChild(button)
-    boxHead.appendChild(options)
+    if (!settings.autosortbynew) {
+        boxHead.appendChild(options)
+    }
     function checkStuff(id, link) {
         fetch("https://api.scratch.mit.edu/projects/" + id)
             .then(res => res.json())
@@ -79,5 +131,8 @@
                         boxContent.appendChild(li)
                     }
             }})
+    }
+    if (settings.stylesheet) {
+        document.head.appendChild(style)
     }
 })();
