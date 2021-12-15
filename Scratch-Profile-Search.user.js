@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Search projects on Scratch Profile
+// @name         Scratch Profile Search
 // @namespace    https://steve0greatness.github.io/extras/User-Project-Search.html
-// @version      1.5
+// @version      1.6
 // @description  Search projects from a profile on my user project search
 // @author       Steve0Greatness
 // @include      https://scratch.mit.edu/users/*/projects/*
@@ -83,19 +83,19 @@
             location.reload()
         }
         if (options.value == "newestDefualt") { options.value = "newest" }
-        boxContent.innerHTML = ""
-        fetch("https://scratchdb.lefty.one/v2/project/info/user/" + user)
-            .then(res => res.json())
-            .then(data => {
-            var projects = data.projects
-            for (let i = 0; i < projects.length; i++) {
-                let currentProject = projects[i]
-                let title = currentProject.info.title
-                let id = currentProject.info.scratch_id
-                checkStuff(id, "https://scratch.mit.edu/projects/" + id)
-            }
-            boxHead.appendChild(loadEmpty)
-        })
+	    boxContent.innerHTML = "<h1>Loading...</h1>"
+	    fetch("https://scratchdb.lefty.one/v2/project/info/user/" + user)
+            	.then(res => res.json())
+            	.then(data => {
+          	  var projects = data.projects
+    	          for (let i = 0; i < projects.length; i++) {
+      	          	let currentProject = projects[i]
+      	          	let title = currentProject.info.title
+      	          	let id = currentProject.info.scratch_id
+      	          	checkStuff(id, "https://scratch.mit.edu/projects/" + id)
+           		}
+          	  boxHead.appendChild(loadEmpty)
+      	 	})
     }
     button.innerHTML = "Search"
     button.id = "search"
@@ -108,6 +108,7 @@
         fetch("https://api.scratch.mit.edu/projects/" + id)
             .then(res => res.json())
             .then(data => {
+                if (boxContent.innerHTML == "Loading") { boxContent.innerHTML = "" }
                 let searchQ = input.value
                 let notes = data.description
                 let instr = data.instructions
