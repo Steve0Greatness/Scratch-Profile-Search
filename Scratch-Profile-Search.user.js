@@ -108,7 +108,7 @@
         fetch("https://api.scratch.mit.edu/projects/" + id)
             .then(res => res.json())
             .then(data => {
-                if (boxContent.innerHTML == "Loading") { boxContent.innerHTML = "" }
+                if (boxContent.innerHTML == "<h1>Loading...</h1>") { boxContent.innerHTML = "" }
                 let searchQ = input.value
                 let notes = data.description
                 let instr = data.instructions
