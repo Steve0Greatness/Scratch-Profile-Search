@@ -30,7 +30,7 @@
             border: "1px solid #ccc",
             borderRadius: "3px",
             height: "28px",
-            fontFamily: "\"Helvetica Neue\",Helvetica,Arial,sans-serif",
+            fontFamily: "\"Helvetica Neue\",Helvetica,Arial,sans-serif", // note: if you want this to look like the rest of the buttons there, don't change this option.
             backgroundImage: "none",
             display: "inline-block"
         }
@@ -83,19 +83,19 @@
             location.reload()
         }
         if (options.value == "newestDefualt") { options.value = "newest" }
-	    boxContent.innerHTML = "<h1>Loading...</h1>"
-	    fetch("https://scratchdb.lefty.one/v2/project/info/user/" + user)
-            	.then(res => res.json())
-            	.then(data => {
-          	  var projects = data.projects
-    	          for (let i = 0; i < projects.length; i++) {
-      	          	let currentProject = projects[i]
-      	          	let title = currentProject.info.title
-      	          	let id = currentProject.info.scratch_id
-      	          	checkStuff(id, "https://scratch.mit.edu/projects/" + id)
-           		}
-          	  boxHead.appendChild(loadEmpty)
-      	 	})
+        boxContent.innerHTML = "<h1>Loading...</h1>"
+        fetch("https://scratchdb.lefty.one/v2/project/info/user/" + user)
+            .then(res => res.json())
+            .then(data => {
+            var projects = data.projects
+            for (let i = 0; i < projects.length; i++) {
+                let currentProject = projects[i]
+                let title = currentProject.info.title
+                let id = currentProject.info.scratch_id
+                checkStuff(id, "https://scratch.mit.edu/projects/" + id)
+            }
+            boxHead.appendChild(loadEmpty)
+        })
     }
     button.innerHTML = "Search"
     button.id = "search"
@@ -108,14 +108,14 @@
         fetch("https://api.scratch.mit.edu/projects/" + id)
             .then(res => res.json())
             .then(data => {
-                if (boxContent.innerHTML == "<h1>Loading...</h1>") { boxContent.innerHTML = "" }
-                let searchQ = input.value
-                let notes = data.description
-                let instr = data.instructions
-                let title = data.title
-                let user = data.author.username
-                if (title.toUpperCase().includes(searchQ.toUpperCase()) || notes.toUpperCase().includes(searchQ.toUpperCase()) || instr.toUpperCase().includes(searchQ.toUpperCase())) {
-                    let thumb = `//cdn2.scratch.mit.edu/get_image/project/${id}_144x108.png`
+            if (boxContent.innerHTML == "<h1>Loading...</h1>") { boxContent.innerHTML = "" }
+            let searchQ = input.value
+            let notes = data.description
+            let instr = data.instructions
+            let title = data.title
+            let user = data.author.username
+            if (title.toUpperCase().includes(searchQ.toUpperCase()) || notes.toUpperCase().includes(searchQ.toUpperCase()) || instr.toUpperCase().includes(searchQ.toUpperCase())) {
+                let thumb = `//cdn2.scratch.mit.edu/get_image/project/${id}_144x108.png`
                     let link = `/projects/${id}`
                     let li = document.createElement("li")
                     let before = document.createElement("li")
@@ -131,7 +131,7 @@
                         boxContent.appendChild(before)
                         boxContent.appendChild(li)
                     }
-            }})
+                }})
     }
     if (settings.stylesheet) {
         document.head.appendChild(style)
