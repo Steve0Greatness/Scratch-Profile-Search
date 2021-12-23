@@ -14,3 +14,5 @@ Inorder to get the projects, this uses [ScratchDB](https://scratchdb.lefty.one/)
 
 ## Settings
 As of currently, settings must be changed by going into the code. It's in an object named "settings".
+
+For more information, please check the [wiki](https://github.com/Steve0Greatness/Scratch-Profile-Search/wiki).
