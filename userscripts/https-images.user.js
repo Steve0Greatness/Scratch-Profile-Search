@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         https images
-// @namespace    http://tampermonkey.net/
-// @version      0.1
+// @namespace    https://github.com/Steve0Greatness/userscripts
+// @version      1.0
 // @description  Make all images https, please note that this may break some images, if it does, go into the nav bar, and turn off this userscript
-// @author       Steve0Greatness
+// @author       You
 // @match        *://*.*
 // @include      *
 // @include      http://*.*
@@ -15,11 +15,12 @@
 (function() {
     'use strict';
 
-    const allImages = document.getElementsByTagName("img").elements
+    const allImages = document.getElementsByTagName("img")
 
     for (var i = 0, element; element = allImages[i++];) {
         let src = element.src
         if (src.substr(0, 4) == "http") {
+            element.dataset.washttp = true
             element.src = "https" + src.substr(4)
         }
     }
