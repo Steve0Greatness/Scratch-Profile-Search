@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Make all images https, please note that this may break some images, if it does, go into the nav bar, and turn off this userscript
-// @author       You
+// @author       Steve0Greatness
 // @match        *://*.*
 // @include      *
 // @include      http://*.*
