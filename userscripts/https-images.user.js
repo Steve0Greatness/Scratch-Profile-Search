@@ -19,7 +19,7 @@
 
     for (var i = 0, element; element = allImages[i++];) {
         let src = element.src
-        if (src.substr(0, 4) == "http") {
+        if (src.substr(0, 7) == "http://") {
             element.dataset.washttp = true
             element.src = "https" + src.substr(4)
         }
